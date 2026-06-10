@@ -1,29 +1,29 @@
-# SEOリライト対象設定
+# SEOリライト共通設定：タスク詳細HTML貼り付け運用版
 
-target:
-  article_url: "https://example.com/current-article/"
-  main_keyword: "ここに狙うメインKWを入力"
-  sub_keywords:
-    - "関連KW1"
-    - "関連KW2"
-  article_type: "affiliate" # affiliate / informational / service / other
+workflow:
+  mode: "single_article_task_detail"
+  article_html_source: "codex_task_detail"
+  use_article_html_file: false
+  process_multiple_articles_at_once: false
+  target: "1タスクにつき1記事のみ処理する"
 
-input_files:
-  article_html: "article/article.html"
-  article_url: "article/article_url.txt"
-  search_console_csv: "data/search_console.csv"
-  ahrefs_organic_keywords_csv: "data/ahrefs_organic_keywords.csv"
-  internal_links_csv: "data/internal_links.csv"
-  affiliate_items_csv: "data/affiliate_items.csv"
-  authority_links_csv: "data/authority_links.csv"
+input_policy:
+  article_url_source: "codex_task_detail"
+  main_keyword_source: "codex_task_detail"
+  search_console_source: "codex_task_detail_or_csv"
+  ahrefs_source: "codex_task_detail_or_csv"
+  article_html_source: "codex_task_detail"
   decoration_prompt: "prompts/decoration_prompt.md"
-  serp_headings: "serp/serp_headings.md"
+  common_rewrite_prompt: "prompts/common_rewrite_prompt.md"
+  wp_safety_rules: "prompts/wp_safety_rules.md"
+  output_format: "prompts/output_format.md"
 
 rewrite_policy:
   use_search_console: true
-  use_ahrefs: true
-  use_serp: true
-  add_missing_headings: true
+  use_ahrefs_if_available: true
+  use_serp_if_provided: true
+  simple_rewrite_for_30_articles: true
+  add_missing_headings_limit: "1〜3個まで"
   suggest_deletions: true
   preserve_affiliate_links: true
   preserve_shortcodes: true
@@ -34,16 +34,27 @@ rewrite_policy:
   avoid_keyword_stuffing: true
   copy_competitor_headings_directly: false
 
+keyword_policy:
+  classify_keywords:
+    - "A: 見出しに入れる"
+    - "B: 本文に自然に入れる"
+    - "C: 注意喚起・補足として扱う"
+    - "D: 使わない"
+  prioritize:
+    - "クリック数が多い"
+    - "表示回数が多く順位5〜15位"
+    - "CTRが低く改善余地がある"
+    - "title / h2 / h3 に入っていない"
+    - "Ahrefsで検索ボリュームやTraffic Potentialがある"
+
 output_policy:
+  create_rewrite_report: true
   create_review_html_with_highlight: true
   create_wp_html_without_highlight: true
   create_delete_suggestions: true
-  create_rewrite_report: true
 
 wordpress:
-  enabled: false # 最初はfalse推奨。下書き投稿テスト時のみtrue
-  target_base_url: "https://test.example.com"
-  forbidden_base_url: "https://example.com"
+  enabled: false
   post_type: "post"
   status: "draft"
   draft_only: true
@@ -52,8 +63,7 @@ wordpress:
   allow_future: false
   require_dry_run_first: true
   dry_run: true
-  category_ids: []
-  tag_ids: []
+  forbidden_base_url: "https://example.com"
 
 safety_rules:
   - "既存記事は絶対に更新しない"
@@ -62,5 +72,5 @@ safety_rules:
   - "publish / future / private は禁止"
   - "変更箇所の色付けは確認用HTMLだけに入れる"
   - "WordPress投入用HTMLからは色付けタグを削除する"
-  - "本体サイトURLまたは許可されていないURLが指定された場合は処理を停止する"
   - "SWELLブロック、ショートコード、広告タグ、アフィリエイトリンクは壊さない"
+  - "記事HTMLはzip内ではなく、Codexタスク詳細欄の【現在の記事HTML】を使う"

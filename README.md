@@ -1,36 +1,41 @@
-# SEOリライト用 input zip テンプレート
+# SEOリライト共通素材zip：タスク詳細HTML貼り付け運用版
 
-このzipは、Codex / GitHub Actions / ローカル実行でSEO記事リライトを進めるための入力ファイル一式です。
+このzipは、30記事を一括処理するのではなく、1記事ずつCodexの「タスクの詳細」欄にHTMLを貼ってリライトする運用向けです。
 
-## 基本の流れ
+## このzipの目的
 
-1. Search Console CSVを読み込む
-2. 現在記事HTMLと照合し、タイトル・見出し・本文に入っていないKWを抽出する
-3. Ahrefsデータがあれば照合する
-4. 検索結果・上位サイト見出しを確認する
-5. リライトを実行する
-6. 装飾プロンプトに沿ってSWELL向けに装飾する
-7. 確認用HTMLとWordPress下書き投入用HTMLを分けて出力する
-8. WordPressには必ず新規下書きとして投稿する
-9. 本体記事は絶対に更新しない
+- 毎回 article.html をzipに入れない
+- 記事HTMLはCodexのタスク詳細欄に直接貼る
+- zipには共通プロンプト、装飾ルール、安全ルール、入力テンプレート、共通CSVだけを入れる
+- 1記事ずつ結果を確認しながら、30記事を安全に簡易リライトする
 
-## 最低限入れるファイル
+## 基本の使い方
 
-- article/article.html
-- article/article_url.txt
-- data/search_console.csv
-- prompts/decoration_prompt.md
-- config.yml
+1. このzipをGitHubリポジトリまたはCodex作業環境に置く
+2. Codexのタスク詳細欄に `templates/task_input_template.md` の内容をコピーする
+3. 記事URL、メインKW、Search Consoleデータ、Ahrefsデータ、現在の記事HTMLを貼る
+4. 1記事だけリライトする
+5. 出力された `rewrite_review.html` と `rewritten.html` を確認する
+6. 問題があればプロンプトを修正して次の記事へ進む
 
-## あると精度が上がるファイル
+## 重要
 
-- data/ahrefs_organic_keywords.csv
-- data/internal_links.csv
-- data/affiliate_items.csv
-- serp/serp_headings.md
-- data/authority_links.csv
+このzipには `article.html` は含めません。
+記事HTMLは毎回、Codexのタスク詳細欄に貼り付けてください。
 
-## 注意
+## 推奨出力
 
-WordPressログイン情報、APIキー、アフィリエイト管理画面のログイン情報はこのzipに入れないでください。
-それらはGitHub Secretsや環境変数で管理してください。
+Codexには、1記事ごとに以下を出力させます。
+
+- output/rewrite_report.md
+- output/rewrite_review.html
+- output/rewritten.html
+- output/delete_suggestions.md
+
+## 絶対に守ること
+
+- 本体記事は絶対に更新しない
+- WordPressには新規下書きのみ作成する
+- `rewrite_review.html` の色付けタグをWordPress投入用HTMLに混ぜない
+- SWELLブロック、ショートコード、広告タグ、アフィリエイトリンクを壊さない
+- 競合サイトの見出しや本文をそのままコピーしない

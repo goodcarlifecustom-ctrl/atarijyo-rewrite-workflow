@@ -1,19 +1,22 @@
 {
-  "name": "rewrite_input_workflow_template",
-  "created_for": "SEOリライト用ワークフロー",
-  "required_files": [
+  "name": "rewrite_common_assets_task_detail",
+  "created_for": "30記事を1記事ずつCodexタスク詳細欄にHTML貼り付けで簡易リライトする運用",
+  "mode": "single_article_task_detail",
+  "article_html_file_included": false,
+  "article_html_source": "codex_task_detail",
+  "main_files": [
     "config.yml",
-    "article/article.html",
-    "article/article_url.txt",
-    "data/search_console.csv",
-    "prompts/decoration_prompt.md"
+    "CODEX_INSTRUCTIONS.md",
+    "prompts/common_rewrite_prompt.md",
+    "prompts/decoration_prompt.md",
+    "prompts/wp_safety_rules.md",
+    "prompts/output_format.md",
+    "templates/task_input_template.md"
   ],
-  "optional_files": [
-    "data/ahrefs_organic_keywords.csv",
+  "optional_common_data": [
     "data/internal_links.csv",
     "data/affiliate_items.csv",
-    "data/authority_links.csv",
-    "serp/serp_headings.md"
+    "data/authority_links.csv"
   ],
   "safety": {
     "draft_only": true,
