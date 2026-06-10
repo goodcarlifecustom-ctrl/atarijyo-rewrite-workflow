@@ -1,0 +1,66 @@
+# SEOリライト対象設定
+
+target:
+  article_url: "https://example.com/current-article/"
+  main_keyword: "ここに狙うメインKWを入力"
+  sub_keywords:
+    - "関連KW1"
+    - "関連KW2"
+  article_type: "affiliate" # affiliate / informational / service / other
+
+input_files:
+  article_html: "article/article.html"
+  article_url: "article/article_url.txt"
+  search_console_csv: "data/search_console.csv"
+  ahrefs_organic_keywords_csv: "data/ahrefs_organic_keywords.csv"
+  internal_links_csv: "data/internal_links.csv"
+  affiliate_items_csv: "data/affiliate_items.csv"
+  authority_links_csv: "data/authority_links.csv"
+  decoration_prompt: "prompts/decoration_prompt.md"
+  serp_headings: "serp/serp_headings.md"
+
+rewrite_policy:
+  use_search_console: true
+  use_ahrefs: true
+  use_serp: true
+  add_missing_headings: true
+  suggest_deletions: true
+  preserve_affiliate_links: true
+  preserve_shortcodes: true
+  preserve_swell_blocks: true
+  preserve_existing_tables: true
+  preserve_ad_tags: true
+  preserve_tracking_tags: true
+  avoid_keyword_stuffing: true
+  copy_competitor_headings_directly: false
+
+output_policy:
+  create_review_html_with_highlight: true
+  create_wp_html_without_highlight: true
+  create_delete_suggestions: true
+  create_rewrite_report: true
+
+wordpress:
+  enabled: false # 最初はfalse推奨。下書き投稿テスト時のみtrue
+  target_base_url: "https://test.example.com"
+  forbidden_base_url: "https://example.com"
+  post_type: "post"
+  status: "draft"
+  draft_only: true
+  allow_update_existing: false
+  allow_publish: false
+  allow_future: false
+  require_dry_run_first: true
+  dry_run: true
+  category_ids: []
+  tag_ids: []
+
+safety_rules:
+  - "既存記事は絶対に更新しない"
+  - "WordPressには必ず新規下書きとして作成する"
+  - "statusはdraft固定"
+  - "publish / future / private は禁止"
+  - "変更箇所の色付けは確認用HTMLだけに入れる"
+  - "WordPress投入用HTMLからは色付けタグを削除する"
+  - "本体サイトURLまたは許可されていないURLが指定された場合は処理を停止する"
+  - "SWELLブロック、ショートコード、広告タグ、アフィリエイトリンクは壊さない"

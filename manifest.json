@@ -1,0 +1,23 @@
+{
+  "name": "rewrite_input_workflow_template",
+  "created_for": "SEOリライト用ワークフロー",
+  "required_files": [
+    "config.yml",
+    "article/article.html",
+    "article/article_url.txt",
+    "data/search_console.csv",
+    "prompts/decoration_prompt.md"
+  ],
+  "optional_files": [
+    "data/ahrefs_organic_keywords.csv",
+    "data/internal_links.csv",
+    "data/affiliate_items.csv",
+    "data/authority_links.csv",
+    "serp/serp_headings.md"
+  ],
+  "safety": {
+    "draft_only": true,
+    "allow_update_existing": false,
+    "allow_publish": false
+  }
+}
